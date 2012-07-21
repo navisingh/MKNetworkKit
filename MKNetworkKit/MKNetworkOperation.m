@@ -476,8 +476,9 @@
 
 -(void) setCachedData:(NSData*) cachedData {
   
-  self.cachedResponse = cachedData;    
-  [self operationSucceeded];
+    self.cachedResponse = cachedData;    
+    [self operationSucceeded];
+    [self cancel]; //<==== Navi - see comment at https://github.com/MugunthKumar/MKNetworkKit/issues/82
 }
 
 -(void) updateOperationBasedOnPreviousHeaders:(NSMutableDictionary*) headers {
