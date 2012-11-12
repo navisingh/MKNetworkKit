@@ -301,6 +301,9 @@ typedef enum {
 @property (nonatomic, assign) BOOL shouldShowLocalNotificationOnError;
 #endif
 
+//Added tag to make it convenient to cancel a specific set of operations.
+@property (nonatomic, assign) int tagType;
+
 /*!
  *  @abstract Add additional header parameters
  *  

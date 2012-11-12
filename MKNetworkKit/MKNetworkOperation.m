@@ -375,88 +375,91 @@
 
 - (void)encodeWithCoder:(NSCoder *)encoder 
 {
-  [encoder encodeInteger:self.stringEncoding forKey:@"stringEncoding"];
-  [encoder encodeInteger:_postDataEncoding forKey:@"postDataEncoding"];
-
-  [encoder encodeObject:self.uniqueId forKey:@"uniqueId"];
-  [encoder encodeObject:self.request forKey:@"request"];
-  [encoder encodeObject:self.response forKey:@"response"];
-  [encoder encodeObject:self.fieldsToBePosted forKey:@"fieldsToBePosted"];
-  [encoder encodeObject:self.filesToBePosted forKey:@"filesToBePosted"];
-  [encoder encodeObject:self.dataToBePosted forKey:@"dataToBePosted"];
-  [encoder encodeObject:self.username forKey:@"username"];
-  [encoder encodeObject:self.password forKey:@"password"];
-  [encoder encodeObject:self.clientCertificate forKey:@"clientCertificate"];
-  
-  self.state = MKNetworkOperationStateReady;
-  [encoder encodeInt32:_state forKey:@"state"];
-  [encoder encodeBool:self.isCancelled forKey:@"isCancelled"];
-  [encoder encodeObject:self.mutableData forKey:@"mutableData"];
-  [encoder encodeInteger:self.downloadedDataSize forKey:@"downloadedDataSize"];
-  [encoder encodeObject:self.downloadStreams forKey:@"downloadStreams"];
-  [encoder encodeInteger:self.startPosition forKey:@"startPosition"];
-  [encoder encodeInteger:self.credentialPersistence forKey:@"credentialPersistence"];
+    [encoder encodeInteger:self.stringEncoding forKey:@"stringEncoding"];
+    [encoder encodeInteger:_postDataEncoding forKey:@"postDataEncoding"];
+    
+    [encoder encodeObject:self.uniqueId forKey:@"uniqueId"];
+    [encoder encodeObject:self.request forKey:@"request"];
+    [encoder encodeObject:self.response forKey:@"response"];
+    [encoder encodeObject:self.fieldsToBePosted forKey:@"fieldsToBePosted"];
+    [encoder encodeObject:self.filesToBePosted forKey:@"filesToBePosted"];
+    [encoder encodeObject:self.dataToBePosted forKey:@"dataToBePosted"];
+    [encoder encodeObject:self.username forKey:@"username"];
+    [encoder encodeObject:self.password forKey:@"password"];
+    [encoder encodeObject:self.clientCertificate forKey:@"clientCertificate"];
+    
+    self.state = MKNetworkOperationStateReady;
+    [encoder encodeInt32:_state forKey:@"state"];
+    [encoder encodeBool:self.isCancelled forKey:@"isCancelled"];
+    [encoder encodeObject:self.mutableData forKey:@"mutableData"];
+    [encoder encodeInteger:self.downloadedDataSize forKey:@"downloadedDataSize"];
+    [encoder encodeObject:self.downloadStreams forKey:@"downloadStreams"];
+    [encoder encodeInteger:self.startPosition forKey:@"startPosition"];
+    [encoder encodeInteger:self.credentialPersistence forKey:@"credentialPersistence"];
+    [encoder encodeInteger:self.tagType forKey:@"tagType"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder 
 {
-  self = [super init];
-  if (self) {
-    [self setStringEncoding:[decoder decodeIntegerForKey:@"stringEncoding"]];
-    _postDataEncoding = [decoder decodeIntegerForKey:@"postDataEncoding"];
-    self.request = [decoder decodeObjectForKey:@"request"];
-    self.uniqueId = [decoder decodeObjectForKey:@"uniqueId"];
-    
-    self.response = [decoder decodeObjectForKey:@"response"];
-    self.fieldsToBePosted = [decoder decodeObjectForKey:@"fieldsToBePosted"];
-    self.filesToBePosted = [decoder decodeObjectForKey:@"filesToBePosted"];
-    self.dataToBePosted = [decoder decodeObjectForKey:@"dataToBePosted"];
-    self.username = [decoder decodeObjectForKey:@"username"];
-    self.password = [decoder decodeObjectForKey:@"password"];
-    self.clientCertificate = [decoder decodeObjectForKey:@"clientCertificate"];
-    [self setState:[decoder decodeInt32ForKey:@"state"]];
-    self.isCancelled = [decoder decodeBoolForKey:@"isCancelled"];
-    self.mutableData = [decoder decodeObjectForKey:@"mutableData"];
-    self.downloadedDataSize = [decoder decodeIntegerForKey:@"downloadedDataSize"];
-    self.downloadStreams = [decoder decodeObjectForKey:@"downloadStreams"];
-    self.startPosition = [decoder decodeIntegerForKey:@"startPosition"];
-    self.credentialPersistence = [decoder decodeIntegerForKey:@"credentialPersistence"];
-  }
-  return self;
+    self = [super init];
+    if (self) {
+        [self setStringEncoding:[decoder decodeIntegerForKey:@"stringEncoding"]];
+        _postDataEncoding = [decoder decodeIntegerForKey:@"postDataEncoding"];
+        self.request = [decoder decodeObjectForKey:@"request"];
+        self.uniqueId = [decoder decodeObjectForKey:@"uniqueId"];
+        
+        self.response = [decoder decodeObjectForKey:@"response"];
+        self.fieldsToBePosted = [decoder decodeObjectForKey:@"fieldsToBePosted"];
+        self.filesToBePosted = [decoder decodeObjectForKey:@"filesToBePosted"];
+        self.dataToBePosted = [decoder decodeObjectForKey:@"dataToBePosted"];
+        self.username = [decoder decodeObjectForKey:@"username"];
+        self.password = [decoder decodeObjectForKey:@"password"];
+        self.clientCertificate = [decoder decodeObjectForKey:@"clientCertificate"];
+        [self setState:[decoder decodeInt32ForKey:@"state"]];
+        self.isCancelled = [decoder decodeBoolForKey:@"isCancelled"];
+        self.mutableData = [decoder decodeObjectForKey:@"mutableData"];
+        self.downloadedDataSize = [decoder decodeIntegerForKey:@"downloadedDataSize"];
+        self.downloadStreams = [decoder decodeObjectForKey:@"downloadStreams"];
+        self.startPosition = [decoder decodeIntegerForKey:@"startPosition"];
+        self.credentialPersistence = [decoder decodeIntegerForKey:@"credentialPersistence"];
+        self.tagType = [decoder decodeIntegerForKey:@"tagType"];
+    }
+    return self;
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
-  MKNetworkOperation *theCopy = [[[self class] allocWithZone:zone] init];  // use designated initializer
-  
-  theCopy.postDataEncoding = _postDataEncoding;
-  [theCopy setStringEncoding:self.stringEncoding];
-  [theCopy setUniqueId:[self.uniqueId copy]];
-  
-  [theCopy setConnection:[self.connection copy]];
-  [theCopy setRequest:[self.request copy]];
-  [theCopy setResponse:[self.response copy]];
-  [theCopy setFieldsToBePosted:[self.fieldsToBePosted copy]];
-  [theCopy setFilesToBePosted:[self.filesToBePosted copy]];
-  [theCopy setDataToBePosted:[self.dataToBePosted copy]];
-  [theCopy setUsername:[self.username copy]];
-  [theCopy setPassword:[self.password copy]];
-  [theCopy setClientCertificate:[self.clientCertificate copy]];
-  [theCopy setResponseBlocks:[self.responseBlocks copy]];
-  [theCopy setErrorBlocks:[self.errorBlocks copy]];
-  [theCopy setState:self.state];
-  [theCopy setIsCancelled:self.isCancelled];
-  [theCopy setMutableData:[self.mutableData copy]];
-  [theCopy setDownloadedDataSize:self.downloadedDataSize];
-  [theCopy setUploadProgressChangedHandlers:[self.uploadProgressChangedHandlers copy]];
-  [theCopy setDownloadProgressChangedHandlers:[self.downloadProgressChangedHandlers copy]];
-  [theCopy setDownloadStreams:[self.downloadStreams copy]];
-  [theCopy setCachedResponse:[self.cachedResponse copy]];
-  [theCopy setCacheHandlingBlock:self.cacheHandlingBlock];
-  [theCopy setStartPosition:self.startPosition];
-  [theCopy setCredentialPersistence:self.credentialPersistence];
-  
-  return theCopy;
+    MKNetworkOperation *theCopy = [[[self class] allocWithZone:zone] init];  // use designated initializer
+    
+    theCopy.postDataEncoding = _postDataEncoding;
+    [theCopy setStringEncoding:self.stringEncoding];
+    [theCopy setUniqueId:[self.uniqueId copy]];
+    
+    [theCopy setConnection:[self.connection copy]];
+    [theCopy setRequest:[self.request copy]];
+    [theCopy setResponse:[self.response copy]];
+    [theCopy setFieldsToBePosted:[self.fieldsToBePosted copy]];
+    [theCopy setFilesToBePosted:[self.filesToBePosted copy]];
+    [theCopy setDataToBePosted:[self.dataToBePosted copy]];
+    [theCopy setUsername:[self.username copy]];
+    [theCopy setPassword:[self.password copy]];
+    [theCopy setClientCertificate:[self.clientCertificate copy]];
+    [theCopy setResponseBlocks:[self.responseBlocks copy]];
+    [theCopy setErrorBlocks:[self.errorBlocks copy]];
+    [theCopy setState:self.state];
+    [theCopy setIsCancelled:self.isCancelled];
+    [theCopy setMutableData:[self.mutableData copy]];
+    [theCopy setDownloadedDataSize:self.downloadedDataSize];
+    [theCopy setUploadProgressChangedHandlers:[self.uploadProgressChangedHandlers copy]];
+    [theCopy setDownloadProgressChangedHandlers:[self.downloadProgressChangedHandlers copy]];
+    [theCopy setDownloadStreams:[self.downloadStreams copy]];
+    [theCopy setCachedResponse:[self.cachedResponse copy]];
+    [theCopy setCacheHandlingBlock:self.cacheHandlingBlock];
+    [theCopy setStartPosition:self.startPosition];
+    [theCopy setCredentialPersistence:self.credentialPersistence];
+    [theCopy setTagType:self.tagType];
+    
+    return theCopy;
 }
 
 -(void) dealloc {
@@ -542,7 +545,7 @@
 
 {	
   if((self = [super init])) {
-    
+    self.tagType = 0;
     self.responseBlocks = [NSMutableArray array];
     self.errorBlocks = [NSMutableArray array];        
     
@@ -621,7 +624,7 @@
   
   NSString *responseString = [self responseString];    
   if([responseString length] > 0) {
-    [displayString appendFormat:@"\n--------\nResponse\n--------\n%@\n", responseString];
+    [displayString appendFormat:@"\n--------\nResponse %d\n--------\n%@\n", _tagType, responseString];
   }
   
   return displayString;

@@ -88,6 +88,8 @@
  *  
  */
 
+@property (nonatomic, weak) NSOperationQueue *sharedQueue;
+
 -(MKNetworkOperation*) operationWithPath:(NSString*) path;
 
 /*!

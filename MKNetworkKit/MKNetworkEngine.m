@@ -90,6 +90,11 @@ static NSOperationQueue *_sharedNetworkQueue;
   }            
 }
 
+- (NSOperationQueue *)sharedQueue
+{
+    return _sharedNetworkQueue;
+}
+
 - (id) init {
   
   return [self initWithHostName:nil];
